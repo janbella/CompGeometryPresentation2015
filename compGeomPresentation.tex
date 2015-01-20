@@ -1,0 +1,201 @@
+\documentclass{beamer}
+
+\usepackage[resetfonts]{cmap}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+%\AtBeginDocument{\shorthandoff{-"}} % Obejití chyby v podpoře češtiny v balíčku Babel.
+
+\usepackage[latin2]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[protrusion,expansion,step=1]{microtype}
+\usepackage{hyperref}
+\hypersetup{
+  unicode=true,
+  plainpages=false,
+  pdfpagelabels=true,
+  pdfpagemode=UseNone,
+  pdfstartview=Fit,
+  pdfpagelayout=SinglePage,
+  pdfdisplaydoctitle=true,
+  linkcolor={1 0 0},
+  bookmarks=true,
+  bookmarksopen=true,
+  bookmarksopenlevel=1,
+  bookmarksnumbered=true,
+  pdfsubject={Image and Signal Processing, Convolution, Impulse Responses},
+  pdfkeywords={Convolution, Dirac function}
+}
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+\usefonttheme{default}
+%\usefonttheme{professionalfonts}
+%\usefonttheme{serif}
+%\usefonttheme{structurebold}
+%\usefonttheme{structureitalicserif}
+%\usefonttheme{structuresmallcapsserif}
+
+%\usecolortheme{default}
+%\usecolortheme{albatross}
+\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{sidebartab}
+%\usecolortheme{structure}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\useinnertheme{default}
+\useinnertheme{circles}
+%\useinnertheme{inmargin}
+%\useinnertheme{rectangles}
+%\useinnertheme{rounded}
+
+\useoutertheme{default}
+%\useoutertheme{infolines}
+%\useoutertheme{miniframes}
+%\useoutertheme{shadow}
+%\useoutertheme{sidebar}
+%\useoutertheme{smoothbars}
+%\useoutertheme{smoothtree}
+%\useoutertheme{split}
+%\useoutertheme{tree}
+%\useoutertheme[subsection=false]{miniframes}
+
+\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{} % Odstranění navigační lišty.
+%\setbeamertemplate{frametitle continuation}[from second]
+
+\newcommand{\cssplit}[1]{\discretionary{#1}{#1}{#1}\kern 0pt} % Definice makra pro sazbu znaků opakovaných při zlomu na začátku dalsího řádku.
+\newcommand{\spj}{\cssplit{-}} % Definice makra pro sazbu pri zlomu opakovaného  spojovníku.
+\def\makro#1{\texttt{\char`\\#1}} % Makro pro sazbu názvů maker.
+\let\bibautor\textsc % Vyznačení autora v seznamu literatury.
+\let\bibnazev\textit % Vyznačení názvu díla v seznamu literatury.
+
+\author{J\'an Bella \and Maxime Portaz}
+\title{Delaunay Triangulation of Imprecise Points}
+\subtitle{Preprocess and actually get a fast query time}
+\institute{Grenoble INP}
+\date{January 23, 2015} 
+
+\setbeamerfont{footnote}{size=\tiny}
+
+%\makeatletter
+%\beamer@theme@subsectionfalse
+%\makeatother
+		
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+\end{frame}
+
+\section{Notions}
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}{Delaunay Triangulation}
+there should be an image
+\begin{figure}
+		\centering
+		\hspace*{-0.5cm}%\includegraphics[scale=0.35]{img/delaunay.png}
+	\end{figure}
+
+	
+\end{frame}
+
+\begin{frame}{Imprecise point}
+\textbf{Imprecise point}: extending a point to some region
+\end{frame}
+
+\begin{frame}{Imprecise point}
+\begin{itemize}
+\item $|W| \rightarrow $ a set $W$
+\item $|xy| \rightarrow $ distance between points x and y.
+\item $DT_P \rightarrow $ Delaunay triangulation of set of points $P$
+\item $NNP(v) \rightarrow $ nearest neighbour graph of $v \in P$ in $P \setminus \{v\}$
+\item $d°G(v) \ rightarrow $ degree of point $v$ in graph $G$
+\item $\dot{p} \rightarrow $ the center of imprecise point $p$
+\item $\hat{p} \rightarrow $ an instance of imprecise point p.
+\item $S, \dot{S}, \hat{S} $ analogously being the sets of these points
+\item $D(p) \rightarrow $ the disk with center $p$ and radius $||\dot{p} NN\dot{S}(\dot{p})|| + 1$, in case of disjoint unit disks $S$
+\item $W(q) = \{p \in S \setminus {q}; \hat{q} \in D(p)\}$ 
+\end{itemize}
+
+\end{frame}
+
+
+\section{Algorithm}
+\begin{frame}{Preprocessing}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+
+
+\begin{frame}{Frame 2}
+\begin{columns}
+\column{.5\textwidth}
+\begin{figure}
+		\centering
+		\hspace*{-0.5cm}%\includegraphics[scale=0.35]{img/****.png}
+	\end{figure}
+\column{.5\textwidth}
+
+\end{columns}
+\end{frame}
+
+%\begin{frame}
+%\centering
+%\huge{Do you have any questions?}\\
+%\end{frame}
+
+\begin{frame}
+\centering
+\huge{Do you have any questions?}\\
+\pause
+\vspace*{1.5cm}
+\centerline{\large{Thank you for your attention.}}
+\end{frame}
+\end{document}
