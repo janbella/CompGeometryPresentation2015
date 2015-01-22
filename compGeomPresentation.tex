@@ -123,6 +123,11 @@
 \makeatother
 		
 \begin{document}
+
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+
+
 \frame{\titlepage}
 \begin{frame}{Problem}
 \begin{columns}
@@ -168,25 +173,45 @@ Is there an advantage we can take and find Delaunay triangulation effectively?
 Supposing we have precise locations within the regions (point instances)
 \end{frame}
 
-\begin{frame}{Imprecise point}
+\begin{frame}{Notation}
+\begin{block}{Imprecise point notation}
 \begin{itemize}
-\item $|W| \rightarrow $ a set $W$
-\item $|xy| \rightarrow $ distance between points x and y.
+%\item $W \rightarrow $ a set $W$
+%\item $|xy| \rightarrow $ distance between points x and y.
 \item $DT_P \rightarrow $ Delaunay triangulation of set of points $P$
 \item $NNP(v) \rightarrow $ nearest neighbour graph of $v \in P$ in $P \setminus \{v\}$
-\item $d°G(v) \rightarrow $ degree of point $v$ in graph $G$
+%\item $d°G(v) \rightarrow $ degree of point $v$ in graph $G$
 \item $\dot{p} \rightarrow $ the center of imprecise point $p$
 \item $\hat{p} \rightarrow $ an instance of imprecise point p.
 \item $S, \dot{S}, \hat{S} $ analogously being the sets of points 
-\item $D(p) \rightarrow $ the disk with center $p$ and radius $||\dot{p} NN\dot{S}(\dot{p})|| + 1$, in case of disjoint unit disks $S$
-\item $W(q) = \{p \in S \setminus {q}; \hat{q} \in D(p)\}$ 
 \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Notation}
+\begin{columns}
+\column{.5\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width=1.0\textwidth]{img/diskNotation.png}
+\caption{$D(p) \rightarrow $ the disk with center $p$ and radius $||\dot{p} NN\dot{S}(\dot{p})|| + 1$, in case of disjoint unit disks $S$
+}
+\end{figure}
+
+\column{.5\textwidth}
+\begin{figure}
+		\centering
+\hspace*{-0.5cm}{\includegraphics[width=1.0\textwidth]{img/WNotation.png}}
+\caption{$W(q) = \{p \in S \setminus {q}; \hat{q} \in D(p)\}$ }
+\end{figure}
+
+
+\end{columns}
 
 \end{frame}
 
-
 \section{Algorithm}
-\frame{\tableofcontents[currentsubsection]}
+\frame{\tableofcontents[currentsection]}
 \begin{frame}{Preprocessing}
 
   \begin{block}{Steps}
@@ -227,50 +252,121 @@ Supposing we have precise locations within the regions (point instances)
 \section{Analysis}
 \frame{\tableofcontents[currentsection]}
 
-\begin{frame}
+\begin{frame}{Complexity}
 
-\end{frame}
-
-\begin{frame}{Complexity -- unit disjoint regions}
+\begin{block}{Unit disjoint regions}
 Expected cost of building $D_{\hat{S}}$ is linear.
-\\
-\textit{Proof:} by Backward analysis, cost of adding last point $\hat{p}$:\\
+\end{block}
+\begin{block}{Proof}
+	By backward analysis, the cost of adding last point $\hat{p}$ is constant:\\
 3 steps:
 \begin{itemize}
 \item visit triangles incident to $\hat{x} \in DT_{\hat{S} \setminus \{\hat{p}\}}$
 \item visit triangles crossed by line segment $\hat{x}\hat{p}$
 \item update triangulation to $DT_{\hat{S}}$
 \end{itemize}
+\end{block}
+\end{frame}
 
-Together: 
-\begin{gather*}
-d°_{DT_{\hat{S}}}(\hat{x}) + 3 \times d°_{DT_{\hat{S}}}(\hat{p}) + \sum_{\hat{q} \in D(p)} d°_{DT_{\hat{S}}}(\hat{q})
-\end{gather*}
+\begin{frame}{Partial costs}
+\begin{block}{visit triangles incident to $\hat{x}$}
+\centering
+$d°DT_{\hat{S}\setminus\{\hat{p}\}}(\hat{x}) \leq d°_{DT_{\hat{S}}}(\hat{x}) + d°_{DT_{\hat{S}}}(\hat{p})$
+\end{block}
+
+\begin{block}{visit triangles crossed by line segment $\hat{x}\hat{p}$}
+\begin{itemize}
+\item edges that disappear in $DT_{\hat{S}}$ \\
+$\rightarrow d°_{DT_{\hat{S}}}(\hat{p}) - 3$\\
+\item edges in $d°_{DT_{\hat{S}}}$ crossed by $\hat{x}\hat{p}$\\
+$\rightarrow \sum_{\hat{q} \in D(p)}d°_{DT_{\hat{S}}}(\hat{p})$ [will be proved later]
+\end{itemize}
+\end{block}
+
+\begin{block}{update triangulation to $DT_{\hat{S}}$}
+\centering
+$d°_{DT_{\hat{S}}}(\hat{p})$
+\end{block}
 
 \end{frame}
 
-\begin{frame}{Complexity -- unit disjoint regions}
+\begin{frame}{Lemma}
+\begin{block}{Statement}
+If edge $\hat{q}{\hat{q}\prime}$ of $DT_{\hat{S}}$ intersects line segment $\hat{x}\hat{p}$ with $\dot{x} = NN_{\dot{S}}(\dot{p})$, then either $\hat{q}$ or ${\hat{q}\prime}$ belongs to $D(p)$.
 
-\begin{itemize}
-\item The expected degree of $\hat{p}$ in $DT_{\hat{S}}$ is less than or equal to 6
-\item The expected degree of $\hat{x}$ in $DT_{\hat{S}}$ is less than or equal to 36
-\item The expected value of $\sum_{\hat{q}\in D(P)} d°_{DT_{\hat{S}}}(\hat{q})$ is less than or equal to 132.
-\begin{itemize}
-\item proof using lemma 1
-\end{itemize}
-\end{itemize}
+\end{block}
 
-\textit{Therefore complexity of adding last point is constant.} $\blacksquare$
 \end{frame}
+
+
+%\begin{frame}{}
+%
+%\begin{block}{$d°_{DT_{\hat{S}}}(\hat{p}) \leq 6$}
+%expected degree of random point in $DT_{\hat{S}}$
+%\end{block}
+%
+%\begin{block}{$d°_{DT_{\hat{S}}}(\hat{x}) \leq 36$}
+%\begin{align*}
+%E()
+%\end{align*}
+%\end{block}
+%
+%
+%\end{frame}
+
+
+
+%
+%\begin{frame}
+%Together: 
+%\vspace*{-0.5cm}
+%\begin{gather*}
+%d°_{DT_{\hat{S}}}(\hat{x}) + 3 \times d°_{DT_{\hat{S}}}(\hat{p}) + \sum_{\hat{q} \in D(p)} d°_{DT_{\hat{S}}}(\hat{q})
+%\end{gather*}
+%	
+%\end{frame}
+
+
+%
+%\begin{frame}{Complexity}
+%
+%\begin{block}{Claims}
+%\begin{itemize}
+%\item The expected degree of $\hat{p}$ in $DT_{\hat{S}}$ is less than or equal to 6
+%\item The expected degree of $\hat{x}$ in $DT_{\hat{S}}$ is less than or equal to 36
+%\item The expected value of $\sum_{\hat{q}\in D(P)} d°_{DT_{\hat{S}}}(\hat{q})$ is less than or equal to 132.
+%\begin{itemize}
+%\item proof using lemma 1
+%\end{itemize}
+%\end{itemize}
+%
+%\textit{Therefore complexity of adding last point is constant.} $\blacksquare$
+%
+%\end{block}
+%\end{frame}
 
 \section{Experiment}
 \frame{\tableofcontents[currentsection]}
 \begin{frame}{Experiment}
+
+
+
+\begin{block}{Compared properties}
 \begin{itemize}
 \item Imprecise points vs. classical Delaunay triangulation
 \item Point sets: Random discs, Brownian motion, Random Balls, 3D noisy data
 \item running time and \# triangles visited
 \end{itemize}
+\end{block}
+
+\begin{block}{Compared methods}
+\begin{itemize}
+\item \textbf{Delaunay hierarchy}: allows to insert points dynamically.\\
+\item \textbf{spatial sort}: points ordered along a curve, then inserted in the spatial sort order. \\
+\item \textbf{Shewchuk}: based on divide and conquer method.\\
+\end{itemize}
+
+\end{block}
 \end{frame}
 
 \begin{frame}{Running time}
@@ -379,8 +475,10 @@ of scanned models& \multicolumn{4}{|c|}{number of visited triangles per point}\\
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Conclution}
+\begin{frame}{Conclusion}
+\begin{block}
 
+\end{block}
 \end{frame}
 
 \begin{frame}
