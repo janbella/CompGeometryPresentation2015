@@ -234,7 +234,7 @@ Supposing we have precise locations within the regions (points instances)
 \begin{tabular}{|l||l|l|l|l|l|l|}
 \hline
 2D random \\
-imprecise points & \multicolumn{6}{|c|}{running time  ($\mu s$)}\\
+imprecise points & \multicolumn{6}{|c|}{running time  ($\mu s$) per point}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ & $10^8$\\\hline
     spatial sort & $1.1$ & $0.85 $ & $0.83 $ & $0.90 $ & $1.0 $ & $1.13$\\\hline
@@ -249,7 +249,7 @@ imprecise points & \multicolumn{6}{|c|}{running time  ($\mu s$)}\\
 \begin{tabular}{|l||l|l|l|l|l|l|}
 \hline
 2D Brownian \\
-motion & \multicolumn{6}{|c|}{running time  ($\mu s$)}\\
+motion & \multicolumn{6}{|c|}{running time  ($\mu s$) per point}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ & $10^8$ \\\hline
     spatial sort & $0.78$ & $0.78 $ & $0.88 $ & $0.96 $ & $1.12 $ & $1.20$\\\hline
@@ -262,7 +262,7 @@ motion & \multicolumn{6}{|c|}{running time  ($\mu s$)}\\
 \begin{tabular}{|l||l|l|l|l|l|}
 \hline
 3D random \\
-imprecise points & \multicolumn{5}{|c|}{running time  ($\mu s$)}\\
+imprecise points & \multicolumn{5}{|c|}{running time  ($\mu s$) per point}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ \\\hline
     spatial sort & $9.0$ & $7.6 $ & $8.0$ & $8.2$ & $8.4$\\\hline
@@ -275,8 +275,8 @@ imprecise points & \multicolumn{5}{|c|}{running time  ($\mu s$)}\\
 \begin{frame}{Running time}
 \begin{tabular}{|l||l|l|l|l|}
 \hline
-2D noisy sample \\
-of scanned models& \multicolumn{4}{|c|}{running time  ($\mu s$)}\\
+3D noisy sample \\
+of scanned models& \multicolumn{4}{|c|}{running time  ($\mu s$) per point}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & full size ($2 \cdot 10^6$ points)\\\hline
     spatial sort & $7$ & $8.2$ & $8.6$ & $8.9$\\\hline
@@ -284,7 +284,7 @@ of scanned models& \multicolumn{4}{|c|}{running time  ($\mu s$)}\\
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Visited triangles per second}
+\begin{frame}{Visited triangles}
 \begin{tabular}{|l||l|l|l|l|l|l|}
 \hline
 2D random \\
@@ -302,7 +302,7 @@ imprecise points & \multicolumn{6}{|c|}{number of visited triangles per point}\\
 \begin{tabular}{|l||l|l|l|l|l|l|}
 \hline
 2D Brownian \\
-motion & \multicolumn{6}{|c|}{number of visited triangles per point}\\
+motion & \multicolumn{6}{|c|}{number of visited triangles per time step}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ & $10^8$\\\hline
     spatial sort & $3.81$ & $3.68 $ & $3.77 $ & $3.72 $ & $3.62 $ & $3.78$\\\hline
@@ -310,10 +310,10 @@ motion & \multicolumn{6}{|c|}{number of visited triangles per point}\\
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Visited triangles per second}
+\begin{frame}{Visited triangles}
 \begin{tabular}{|l||l|l|l|l|l|}
 \hline
-2D random \\
+3D random \\
 imprecise points & \multicolumn{5}{|c|}{number of visited triangles per point}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ \\\hline
@@ -327,7 +327,7 @@ imprecise points & \multicolumn{5}{|c|}{number of visited triangles per point}\\
 \begin{frame}{Visited triangles per second}
 \begin{tabular}{|l||l|l|l|l|}
 \hline
-2D noisy sample \\
+3D noisy sample \\
 of scanned models& \multicolumn{4}{|c|}{number of visited triangles per point}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & full size ($2 \cdot 10^6$ points)\\\hline
