@@ -189,10 +189,38 @@ Supposing we have precise locations within the regions (point instances)
 \frame{\tableofcontents[currentsubsection]}
 \begin{frame}{Preprocessing}
 
+  \begin{block}{Steps}
+    \begin{enumerate}
+     \item $S = \{p_1,p_2,...,p_n\}$ enumerate disks in a random order
+     \item Compute $DT_{\dot{S}}$ incrementally, inserting points in the order of their indices
+     \item For each $\dot{p}_k$ inserted, we compute the hint $h(k)$ of $p_k$ \\
+     $\rightarrow$ hint : $NN_{\dot{S_k}}(\dot{p}_k) = \dot{p}_{h(k)}$
+    \end{enumerate}
+  \end{block}
+
+  \begin{block}{Expected time}
+    Randomized incremental construction $\rightarrow$ $O(n~log~n)$\footnote{Olivier Devillers. The Delaunay Hierarchy. International Journal of Foundations of Computer Science, World Scientific Publishing, 2002, 13, pp.163-180} \\
+    Including the computation of $h(k)$ for each $k$
+  \end{block}
+  
+  
 \end{frame}
 
-\begin{frame}{Instance processing}
 
+
+
+\begin{frame}{Instance processing}
+  \begin{block}{Steps}
+    \begin{itemize}
+     \item Given an instance $\hat{S}$ we compute $DT_{\hat{S}}$ inserting points in the order of their indices
+     \item Location of $\hat{p}_k$ in $DT_{\hat{S}_{k-1}}$ is done by straight walk starting at $\hat{P}_{h(k)}$
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Expected time}
+    $O(n)$ $\rightarrow$ better in practice
+  \end{block}
+  
 \end{frame}
 
 
