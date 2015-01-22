@@ -5,6 +5,7 @@
 \usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{graphicx}
 
 %\AtBeginDocument{\shorthandoff{-"}} % Obejití chyby v podpoře češtiny v balíčku Babel.
 
@@ -117,12 +118,30 @@
 
 \setbeamerfont{footnote}{size=\tiny}
 
-%\makeatletter
-%\beamer@theme@subsectionfalse
-%\makeatother
+\makeatletter
+\beamer@theme@subsectionfalse
+\makeatother
 		
 \begin{document}
 \frame{\titlepage}
+\begin{frame}{Problem}
+\begin{columns}
+\column{.5\textwidth}
+Given: 
+a set of regions (imprecise points)\\
+\pause
+~\\
+Is there an advantage we can take and find Delaunay triangulation effectively?
+\column{.5\textwidth}
+\begin{figure}
+		\centering
+\hspace*{-0.5cm}		\only<1>{\includegraphics[width=1.1\textwidth ,angle=90]{img/problem_given.png}}
+\only<2>{\includegraphics[width=1.1\textwidth ,angle=90]{img/problem_get.png}}
+	\end{figure}
+
+
+\end{columns}
+\end{frame}
 
 \begin{frame}
 \frametitle{Outline}
@@ -133,17 +152,20 @@
 \frame{\tableofcontents[currentsection]}
 
 \begin{frame}{Delaunay Triangulation}
-there should be an image
 \begin{figure}
 		\centering
-		\hspace*{-0.5cm}%\includegraphics[scale=0.35]{img/delaunay.png}
+	\includegraphics[scale=0.3]{img/delaunayTriangulation.png}
 	\end{figure}
-
-	
 \end{frame}
 
 \begin{frame}{Imprecise point}
 \textbf{Imprecise point}: extending a point to some region
+\begin{figure}
+		\centering
+	\includegraphics[width=\textwidth]{img/imprecise_point.png}
+	\end{figure}
+\pause
+Supposing we have precise locations within the regions (points instances)
 \end{frame}
 
 \begin{frame}{Imprecise point}
@@ -152,10 +174,10 @@ there should be an image
 \item $|xy| \rightarrow $ distance between points x and y.
 \item $DT_P \rightarrow $ Delaunay triangulation of set of points $P$
 \item $NNP(v) \rightarrow $ nearest neighbour graph of $v \in P$ in $P \setminus \{v\}$
-\item $d°G(v) \ rightarrow $ degree of point $v$ in graph $G$
+\item $d°G(v) \rightarrow $ degree of point $v$ in graph $G$
 \item $\dot{p} \rightarrow $ the center of imprecise point $p$
 \item $\hat{p} \rightarrow $ an instance of imprecise point p.
-\item $S, \dot{S}, \hat{S} $ analogously being the sets of these points
+\item $S, \dot{S}, \hat{S} $ analogously being the sets of points 
 \item $D(p) \rightarrow $ the disk with center $p$ and radius $||\dot{p} NN\dot{S}(\dot{p})|| + 1$, in case of disjoint unit disks $S$
 \item $W(q) = \{p \in S \setminus {q}; \hat{q} \in D(p)\}$ 
 \end{itemize}
@@ -164,6 +186,7 @@ there should be an image
 
 
 \section{Algorithm}
+\frame{\tableofcontents[currentsubsection]}
 \begin{frame}{Preprocessing}
 
 \end{frame}
@@ -186,10 +209,136 @@ there should be an image
 \end{columns}
 \end{frame}
 
-%\begin{frame}
-%\centering
-%\huge{Do you have any questions?}\\
-%\end{frame}
+\section{Analysis}
+\frame{\tableofcontents[currentsection]}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}{Complexity}
+
+\end{frame}
+
+\section{Experiment}
+\frame{\tableofcontents[currentsection]}
+\begin{frame}{Experiment}
+\begin{itemize}
+\item Imprecise points vs. classical Delaunay triangulation
+\item Point sets: Random discs, Brownian motion, Random Balls, 3D noisy data
+\item running time and \# triangles visited
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Running time}
+\begin{tabular}{|l||l|l|l|l|l|l|}
+\hline
+2D random \\
+imprecise points & \multicolumn{6}{|c|}{running time  ($\mu s$)}\\
+ \hline \hline
+    n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ & $10^8$\\\hline
+    spatial sort & $1.1$ & $0.85 $ & $0.83 $ & $0.90 $ & $1.0 $ & $1.13$\\\hline
+    Delaunay hierarchy & $1.8$ & $1.6$ & $2.8 $ & $5.78 $ & $9.0$ & $13$\\\hline
+    Skewchuch & $0.96 $ & $1.12$ & $1.05 $ & $1.61 $ & $2.4$ &\\\hline
+    hint random order & $0.9 $ & $0.88 $ & $1.2 $ & $2.9 $ & $3.8$ & $5.4$\\\hline
+    hint spatial sort & $1.0 $ & $0.79$ & $0.59$ & $0.61 $ & $0.61 $ & $0.62$\\\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Running time}
+\begin{tabular}{|l||l|l|l|l|l|l|}
+\hline
+2D Brownian \\
+motion & \multicolumn{6}{|c|}{running time  ($\mu s$)}\\
+ \hline \hline
+    n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ & $10^8$ \\\hline
+    spatial sort & $0.78$ & $0.78 $ & $0.88 $ & $0.96 $ & $1.12 $ & $1.20$\\\hline
+    \textbf{hint spatial sort} & $0.73 $ & $0.69$ & $0.79$ & $0.81 $ & $0.83 $ & $0.82$\\
+    \hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Running time}
+\begin{tabular}{|l||l|l|l|l|l|}
+\hline
+3D random \\
+imprecise points & \multicolumn{5}{|c|}{running time  ($\mu s$)}\\
+ \hline \hline
+    n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ \\\hline
+    spatial sort & $9.0$ & $7.6 $ & $8.0$ & $8.2$ & $8.4$\\\hline
+    Delaunay hierarchy & $11$ & $9.7$ & $18$ & $25$ & $33$\\\hline
+    hint random order & $9.2 $ & $7.8 $ & $14.2 $ & $19 $ & $23$ \\\hline
+    hint spatial sort & $9.5$ & $7.5$ & $7.8$ & $7.9$ & $8.0$\\\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Running time}
+\begin{tabular}{|l||l|l|l|l|}
+\hline
+2D noisy sample \\
+of scanned models& \multicolumn{4}{|c|}{running time  ($\mu s$)}\\
+ \hline \hline
+    n & $10^3$ & $10^4$ & $10^5$ & full size ($2 \cdot 10^6$ points)\\\hline
+    spatial sort & $7$ & $8.2$ & $8.6$ & $8.9$\\\hline
+    hint spatial sort & $7$ & $7.5$ & $7.7$ & $7.5$\\\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Visited triangles per second}
+\begin{tabular}{|l||l|l|l|l|l|l|}
+\hline
+2D random \\
+imprecise points & \multicolumn{6}{|c|}{number of visited triangles per point}\\
+ \hline \hline
+    n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ & $10^8$\\\hline
+    spatial sort & $3.74$ & $3.64 $ & $3.71 $ & $3.67 $ & $3.55 $ & $3.71$\\\hline
+    Delaunay hierarchy & $24$ & $28$ & $29$ & $38$ & $45$ & $47$\\\hline
+    hint random order & $2.83 $ & $2.8 $ & $2.77 $ & $2.75 $ & $2.75$ & $2.74$\\\hline
+    hint spatial sort & $2.82$ & $2.80$ & $2.77$ & $2.76$ & $2.75$ & $2.75$\\\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Visited triangles per second}
+\begin{tabular}{|l||l|l|l|l|l|l|}
+\hline
+2D Brownian \\
+motion & \multicolumn{6}{|c|}{number of visited triangles per point}\\
+ \hline \hline
+    n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ & $10^8$\\\hline
+    spatial sort & $3.81$ & $3.68 $ & $3.77 $ & $3.72 $ & $3.62 $ & $3.78$\\\hline
+    hint spatial sort & $2.77$ & $2.77$ & $2.77$ & $2.77$ & $2.77$ & $2.77$\\\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Visited triangles per second}
+\begin{tabular}{|l||l|l|l|l|l|}
+\hline
+2D random \\
+imprecise points & \multicolumn{5}{|c|}{number of visited triangles per point}\\
+ \hline \hline
+    n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ \\\hline
+    hint random order & $5.2 $ & $5.3 $ & $5.3$ & $5.2$ & $5.2$\\\hline
+    spatial sort & $6.3$ & $6.6$ & $6.6$ & $6.6$ & $6.6$ \\\hline
+    Delaunay hierarchy & $21$ & $29$ & $34$ & $42$ & $50$\\\hline
+    hint spatial sort & $4.4$ & $4.6$ & $4.5$ & $4.5$ & $4.4$\\\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Visited triangles per second}
+\begin{tabular}{|l||l|l|l|l|}
+\hline
+2D noisy sample \\
+of scanned models& \multicolumn{4}{|c|}{number of visited triangles per point}\\
+ \hline \hline
+    n & $10^3$ & $10^4$ & $10^5$ & full size ($2 \cdot 10^6$ points)\\\hline
+    spatial sort & $7.0$ & $8.0$ & $8.6$ & $9.5$\\\hline
+    hint spatial sort & $5.7$ & $6.0$ & $6.1$ & $6.4$\\\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Conclution}
+
+\end{frame}
 
 \begin{frame}
 \centering
@@ -197,5 +346,11 @@ there should be an image
 \pause
 \vspace*{1.5cm}
 \centerline{\large{Thank you for your attention.}}
+\end{frame}
+
+\begin{frame}{Bibliography}
+\bibliographystyle{plain}  
+\nocite{*}
+\bibliography{bibliography}
 \end{frame}
 \end{document}
