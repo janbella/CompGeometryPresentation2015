@@ -213,7 +213,7 @@ Supposing we have precise locations within the regions (point instances)
 
 \section{Related Work}
 \frame{\tableofcontents[currentsection]}
-\begin{frame}{Proprocess}
+\begin{frame}{Imprecise points}
  \begin{block}{Preprocess unit disks in $O(n~log~n)$ and compute Delaunay triangulation in $O(n)$}
   \begin{itemize}
    \item Maarten L\"offler and Jack Snoeyink. 2008. Delaunay triangulations of imprecise points in linear time after preprocessing \\
@@ -227,7 +227,7 @@ Supposing we have precise locations within the regions (point instances)
 
 \begin{frame}{Delaunay construction}
  \begin{block}{Walking strategy}
-  Straight walk in the triangulation
+  Straight walk in the triangulation\footnote{Olivier Devillers. Walking in a Triangulation. Proceedings of the Seventeenth Annual Symposium on Computational Geometry, 201,9, pp.106-114}
   \begin{enumerate}
    \item Visit every triangles crossed by the line between the starting point a the new point
    \item Remove non-Delaunay triangles
