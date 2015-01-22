@@ -165,7 +165,7 @@ Is there an advantage we can take and find Delaunay triangulation effectively?
 	\includegraphics[width=\textwidth]{img/imprecise_point.png}
 	\end{figure}
 \pause
-Supposing we have precise locations within the regions (points instances)
+Supposing we have precise locations within the regions (point instances)
 \end{frame}
 
 \begin{frame}{Imprecise point}
@@ -191,23 +191,10 @@ Supposing we have precise locations within the regions (points instances)
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Instance processing}
 
 \end{frame}
 
-
-
-\begin{frame}{Frame 2}
-\begin{columns}
-\column{.5\textwidth}
-\begin{figure}
-		\centering
-		\hspace*{-0.5cm}%\includegraphics[scale=0.35]{img/****.png}
-	\end{figure}
-\column{.5\textwidth}
-
-\end{columns}
-\end{frame}
 
 \section{Analysis}
 \frame{\tableofcontents[currentsection]}
@@ -216,8 +203,36 @@ Supposing we have precise locations within the regions (points instances)
 
 \end{frame}
 
-\begin{frame}{Complexity}
+\begin{frame}{Complexity -- unit disjoint regions}
+Expected cost of building $D_{\hat{S}}$ is linear.
+\\
+\textit{Proof:} by Backward analysis, cost of adding last point $\hat{p}$:\\
+3 steps:
+\begin{itemize}
+\item visit triangles incident to $\hat{x} \in DT_{\hat{S} \setminus \{\hat{p}\}}$
+\item visit triangles crossed by line segment $\hat{x}\hat{p}$
+\item update triangulation to $DT_{\hat{S}}$
+\end{itemize}
 
+Together: 
+\begin{gather*}
+d°_{DT_{\hat{S}}}(\hat{x}) + 3 \times d°_{DT_{\hat{S}}}(\hat{p}) + \sum_{\hat{q} \in D(p)} d°_{DT_{\hat{S}}}(\hat{q})
+\end{gather*}
+
+\end{frame}
+
+\begin{frame}{Complexity -- unit disjoint regions}
+
+\begin{itemize}
+\item The expected degree of $\hat{p}$ in $DT_{\hat{S}}$ is less than or equal to 6
+\item The expected degree of $\hat{x}$ in $DT_{\hat{S}}$ is less than or equal to 36
+\item The expected value of $\sum_{\hat{q}\in D(P)} d°_{DT_{\hat{S}}}(\hat{q})$ is less than or equal to 132.
+\begin{itemize}
+\item proof using lemma 1
+\end{itemize}
+\end{itemize}
+
+\textit{Therefore complexity of adding last point is constant.} $\blacksquare$
 \end{frame}
 
 \section{Experiment}
@@ -241,7 +256,7 @@ imprecise points & \multicolumn{6}{|c|}{running time  ($\mu s$) per point}\\
     Delaunay hierarchy & $1.8$ & $1.6$ & $2.8 $ & $5.78 $ & $9.0$ & $13$\\\hline
     Skewchuch & $0.96 $ & $1.12$ & $1.05 $ & $1.61 $ & $2.4$ &\\\hline
     hint random order & $0.9 $ & $0.88 $ & $1.2 $ & $2.9 $ & $3.8$ & $5.4$\\\hline
-    hint spatial sort & $1.0 $ & $0.79$ & $0.59$ & $0.61 $ & $0.61 $ & $0.62$\\\hline
+    \textbf{hint spatial sort} & $1.0 $ & $0.79$ & $0.59$ & $0.61 $ & $0.61 $ & $0.62$\\\hline
 \end{tabular}
 \end{frame}
 
@@ -268,7 +283,7 @@ imprecise points & \multicolumn{5}{|c|}{running time  ($\mu s$) per point}\\
     spatial sort & $9.0$ & $7.6 $ & $8.0$ & $8.2$ & $8.4$\\\hline
     Delaunay hierarchy & $11$ & $9.7$ & $18$ & $25$ & $33$\\\hline
     hint random order & $9.2 $ & $7.8 $ & $14.2 $ & $19 $ & $23$ \\\hline
-    hint spatial sort & $9.5$ & $7.5$ & $7.8$ & $7.9$ & $8.0$\\\hline
+    \textbf{hint spatial sort} & $9.5$ & $7.5$ & $7.8$ & $7.9$ & $8.0$\\\hline
 \end{tabular}
 \end{frame}
 
@@ -280,7 +295,7 @@ of scanned models& \multicolumn{4}{|c|}{running time  ($\mu s$) per point}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & full size ($2 \cdot 10^6$ points)\\\hline
     spatial sort & $7$ & $8.2$ & $8.6$ & $8.9$\\\hline
-    hint spatial sort & $7$ & $7.5$ & $7.7$ & $7.5$\\\hline
+    \textbf{hint spatial sort} & $7$ & $7.5$ & $7.7$ & $7.5$\\\hline
 \end{tabular}
 \end{frame}
 
@@ -294,11 +309,11 @@ imprecise points & \multicolumn{6}{|c|}{number of visited triangles per point}\\
     spatial sort & $3.74$ & $3.64 $ & $3.71 $ & $3.67 $ & $3.55 $ & $3.71$\\\hline
     Delaunay hierarchy & $24$ & $28$ & $29$ & $38$ & $45$ & $47$\\\hline
     hint random order & $2.83 $ & $2.8 $ & $2.77 $ & $2.75 $ & $2.75$ & $2.74$\\\hline
-    hint spatial sort & $2.82$ & $2.80$ & $2.77$ & $2.76$ & $2.75$ & $2.75$\\\hline
+    \textbf{hint spatial sort} & $2.82$ & $2.80$ & $2.77$ & $2.76$ & $2.75$ & $2.75$\\\hline
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Visited triangles per second}
+\begin{frame}{Visited triangles}
 \begin{tabular}{|l||l|l|l|l|l|l|}
 \hline
 2D Brownian \\
@@ -306,7 +321,7 @@ motion & \multicolumn{6}{|c|}{number of visited triangles per time step}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & $10^6$ & $10^7$ & $10^8$\\\hline
     spatial sort & $3.81$ & $3.68 $ & $3.77 $ & $3.72 $ & $3.62 $ & $3.78$\\\hline
-    hint spatial sort & $2.77$ & $2.77$ & $2.77$ & $2.77$ & $2.77$ & $2.77$\\\hline
+    \textbf{hint spatial sort} & $2.77$ & $2.77$ & $2.77$ & $2.77$ & $2.77$ & $2.77$\\\hline
 \end{tabular}
 \end{frame}
 
@@ -320,11 +335,11 @@ imprecise points & \multicolumn{5}{|c|}{number of visited triangles per point}\\
     hint random order & $5.2 $ & $5.3 $ & $5.3$ & $5.2$ & $5.2$\\\hline
     spatial sort & $6.3$ & $6.6$ & $6.6$ & $6.6$ & $6.6$ \\\hline
     Delaunay hierarchy & $21$ & $29$ & $34$ & $42$ & $50$\\\hline
-    hint spatial sort & $4.4$ & $4.6$ & $4.5$ & $4.5$ & $4.4$\\\hline
+    \textbf{hint spatial sort} & $4.4$ & $4.6$ & $4.5$ & $4.5$ & $4.4$\\\hline
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Visited triangles per second}
+\begin{frame}{Visited triangles}
 \begin{tabular}{|l||l|l|l|l|}
 \hline
 3D noisy sample \\
@@ -332,7 +347,7 @@ of scanned models& \multicolumn{4}{|c|}{number of visited triangles per point}\\
  \hline \hline
     n & $10^3$ & $10^4$ & $10^5$ & full size ($2 \cdot 10^6$ points)\\\hline
     spatial sort & $7.0$ & $8.0$ & $8.6$ & $9.5$\\\hline
-    hint spatial sort & $5.7$ & $6.0$ & $6.1$ & $6.4$\\\hline
+    \textbf{hint spatial sort} & $5.7$ & $6.0$ & $6.1$ & $6.4$\\\hline
 \end{tabular}
 \end{frame}
 
