@@ -210,6 +210,34 @@ Supposing we have precise locations within the regions (point instances)
 
 \end{frame}
 
+
+\section{Related Work}
+\frame{\tableofcontents[currentsection]}
+\begin{frame}{Proprocess}
+ \begin{block}{Preprocess unit disks in $O(n~log~n)$ and compute Delaunay triangulation in $O(n)$}
+  \begin{itemize}
+   \item Maarten L\"offler and Jack Snoeyink. 2008. Delaunay triangulations of imprecise points in linear time after preprocessing \\
+   $\rightarrow$ mainly theoretical 
+   \item Buchin et al. 2011. Preprocessing Imprecise Points for Delaunay Triangulation: Simplified and Extended \\
+   $\rightarrow$ heavy in practice (Delaunay triangulation of 8n points)
+  \end{itemize}
+ \end{block}
+ 
+\end{frame}
+
+\begin{frame}{Delaunay construction}
+ \begin{block}{Walking strategy}
+  Straight walk in the triangulation
+  \begin{enumerate}
+   \item Visit every triangles crossed by the line between the starting point a the new point
+   \item Remove non-Delaunay triangles
+   \item Filling hole with triangles incident to the new point
+  \end{enumerate}
+
+ \end{block}
+\end{frame}
+
+
 \section{Algorithm}
 \frame{\tableofcontents[currentsection]}
 \begin{frame}{Preprocessing}
