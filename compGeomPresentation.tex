@@ -179,7 +179,7 @@ Supposing we have precise locations within the regions (point instances)
 %\item $W \rightarrow $ a set $W$
 %\item $|xy| \rightarrow $ distance between points x and y.
 \item $DT_P \rightarrow $ Delaunay triangulation of set of points $P$
-\item $NNP(v) \rightarrow $ nearest neighbour graph of $v \in P$ in $P \setminus \{v\}$
+\item $NN_P(v) \rightarrow $ nearest neighbour of point $v \in P$ in $P \setminus \{v\}$
 %\item $d°G(v) \rightarrow $ degree of point $v$ in graph $G$
 \item $\dot{p} \rightarrow $ the center of imprecise point $p$
 \item $\hat{p} \rightarrow $ an instance of imprecise point p.
@@ -188,25 +188,25 @@ Supposing we have precise locations within the regions (point instances)
 \end{block}
 \end{frame}
 
-\begin{frame}{Notation}
-\begin{columns}
-\column{.5\textwidth}
+\begin{frame}{Disk}
+%\begin{columns}
+%\column{.5\textwidth}
 \begin{figure}
 \centering
-\includegraphics[width=1.0\textwidth]{img/diskNotation.png}
+\includegraphics[width=0.5\textwidth]{img/diskNotation.png}
 \caption{$D(p) \rightarrow $ the disk with center $p$ and radius $||\dot{p} NN\dot{S}(\dot{p})|| + 1$, in case of disjoint unit disks $S$
 }
 \end{figure}
 
-\column{.5\textwidth}
-\begin{figure}
-		\centering
-\hspace*{-0.5cm}{\includegraphics[width=1.0\textwidth]{img/WNotation.png}}
-\caption{$W(q) = \{p \in S \setminus {q}; \hat{q} \in D(p)\}$ }
-\end{figure}
+%\column{.5\textwidth}
+%\begin{figure}
+%		\centering
+%\hspace*{-0.5cm}{\includegraphics[width=1.0\textwidth]{img/WNotation.png}}
+%\caption{$W(q) = \{p \in S \setminus {q}; \hat{q} \in D(p)\}$ }
+%\end{figure}
 
 
-\end{columns}
+%\end{columns}
 
 \end{frame}
 
@@ -290,7 +290,7 @@ Expected cost of building $D_{\hat{S}}$ is linear.
 3 steps:
 \begin{itemize}
 \item visit triangles incident to $\hat{x} \in DT_{\hat{S} \setminus \{\hat{p}\}}$
-\item visit triangles crossed by line segment $\hat{x}\hat{p}$
+\item visit triangles crossed by line segment $\hat{x}\hat{p} (\dot{x} = NN_{\dot{S}}(\dot{p}))$
 \item update triangulation to $DT_{\hat{S}}$
 \end{itemize}
 \end{block}
@@ -321,8 +321,35 @@ $d°_{DT_{\hat{S}}}(\hat{p})$
 \begin{frame}{Lemma}
 \begin{block}{Statement}
 If edge $\hat{q}{\hat{q}\prime}$ of $DT_{\hat{S}}$ intersects line segment $\hat{x}\hat{p}$ with $\dot{x} = NN_{\dot{S}}(\dot{p})$, then either $\hat{q}$ or ${\hat{q}\prime}$ belongs to $D(p)$.
-
 \end{block}
+\begin{figure}
+\centering
+\only<1>{\includegraphics[width=0.8\textwidth]{img/lemma_proof/lemma1_gimp.png}}
+\only<2>{\includegraphics[width=0.8\textwidth]{img/lemma_proof/lemma2_gimp.png}}
+\only<3>{\includegraphics[width=0.8\textwidth]{img/lemma_proof/lemma3_gimp.png}}
+\only<4>{\includegraphics[width=0.8\textwidth]{img/lemma_proof/lemma5_gimp.png}}
+\only<5>{\includegraphics[width=0.8\textwidth]{img/lemma_proof/lemma7_gimp.png}}
+\only<6>{\includegraphics[width=0.8\textwidth]{img/lemma_proof/lemma6_gimp.png}}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Beyond disjoined planar unit disks}
+
+\begin{block}{Overlapping unit disks}
+Disks overlapping at most $k$ times: $\mathcal{O}(k n)$
+\end{block}
+
+
+\begin{block}{Non-unit disks}
+Different sizes + non-overlapping: complexity unknown yet\\
+Different sizes, overlapping at most twice: proved quadratic complexity
+\end{block}
+
+\begin{block}{Higher dimension}
+$\mathcal{O}(n) + \mathcal{O}(n \log(n))$ preprocessing
+\end{block}
+
 
 \end{frame}
 
@@ -503,9 +530,14 @@ of scanned models& \multicolumn{4}{|c|}{number of visited triangles per point}\\
 \end{tabular}
 \end{frame}
 
+\section{Conclusion}
 \begin{frame}{Conclusion}
-\begin{block}
-
+\begin{block}{Summary}
+\begin{itemize}
+\item simple algorithm to describe and to implement
+\item usable for any type of data
+\item preprocessing points with spatial sort increases performance rapidly
+\end{itemize}
 \end{block}
 \end{frame}
 
